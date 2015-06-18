@@ -1,6 +1,6 @@
-*Basic inference*
+##Basic inference
 
-**Inverse properties**
+###Inverse properties
 
     SELECT ?p ?q
     WHERE {
@@ -9,7 +9,7 @@
       { ?a ?q ?c FILTER ( ?a = ?o && ?c = ?s ) }
     }
 
-*Basic graph statistics*
+##Basic graph statistics
 
 Notations:
 
@@ -19,7 +19,7 @@ Notations:
     ?nNum: number of nodes in SPARQL queries, equals to |N|
     ?eNum: number of edges in SPARQL queries, equals to |E|
 
-**Number of nodes**
+###Number of nodes
 
 The number of nodes equals to the sum of distinct subjects or objects.
 
@@ -35,14 +35,14 @@ or in a more compact form using query path:
     SELECT ( COUNT ( DISTINCT ?node ) AS ?nNum )
     WHERE { ?node ?p | ^?p ?obj }
 
-**Number of directed edges**
+###Number of directed edges
 
 The number of directed edges equals to the number of triples.
 
     SELECT ( COUNT ( * ) AS ?eNum )
     WHERE { ?s ?p ?o }
 
-**Number of undirected edges**
+###Number of undirected edges
 
 Number of undirected single edges (only one triple between two nodes)
 
@@ -83,7 +83,7 @@ Number of undirected edges
       }
     }
 
-**Directed Graph density**
+###Directed Graph density
 
 Graph density is defined as the ratio between the number of edges and the number of all possible edges (i.e. every node connects to all others via outgoing and incoming links). In a directed graph, the number of possilbe edges is `|N|*(|N|-1)`, and the number of acutual edges equals to the number of triples.
 
@@ -98,7 +98,7 @@ Graph density is defined as the ratio between the number of edges and the number
       }
     }
 
-**Undirected graph density**
+###Undirected graph density
 In a undirected graph a linked \<subject, object\> pair counts as one edge. The number of possilbe edges is `|N|*(|N|-1)/2`, and the number of acutual edges equals to the number of distinct \<subject, object\> pairs devided by 2.
 
     SELECT ( ?eNum / ( ?nNum * ( ?nNum - 1.0 ) / 2 ) AS ?density )
