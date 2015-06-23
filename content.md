@@ -79,7 +79,7 @@ Number of undirected edges
       WHERE {
         { ?s ?p ?o }
         UNION
-    		{ ?o ?q ?s }
+    	{ ?o ?q ?s }
       }
     }
 
@@ -109,7 +109,7 @@ In a undirected graph a linked \<subject, object\> pair counts as one edge. The 
         WHERE {
           { ?s ?p ?o }
           UNION
-      		{ ?o ?q ?s }
+      	  { ?o ?q ?s }
         }
       }
     }
