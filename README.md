@@ -1,2 +1,2 @@
 # alginsparql
-Algorithms written in (mainly) SPARQL
+Algorithms (mainly) written in SPARQL
