@@ -21,7 +21,7 @@ Notations:
 
 ###Number of nodes
 
-The number of nodes equals to the sum of distinct subjects or objects.
+The number of nodes equals to the sum of distinct subjects and objects.
 
     SELECT ( COUNT ( DISTINCT ?node ) AS ?nNum )
     WHERE { 
@@ -30,7 +30,7 @@ The number of nodes equals to the sum of distinct subjects or objects.
       { ?obj ?p ?node }
     }
 
-or in a more compact form using query path:
+or in a more compact form using property path:
 
     SELECT ( COUNT ( DISTINCT ?node ) AS ?nNum )
     WHERE { ?node ?p | ^?p ?obj }
@@ -44,34 +44,39 @@ The number of directed edges equals to the number of triples.
 
 ###Number of undirected edges
 
-Number of undirected single edges (only one triple between two nodes)
+Number of triples between two nodes
 
-    SELECT ( COUNT ( * ) AS ?seNum )
+    SELECT ?s ?o ( COUNT ( * ) AS ?tNum )
     WHERE {
-      ?s ?p ?o 
-        FILTER NOT EXISTS { ?o ?q ?s } 
+        { ?s ?p ?o }
+        UNION
+    	  { ?o ?q ?s }
     }
+    GROUP BY ?s ?o
 
-or
+Number of single edges (edges consisting of one triple)
 
-    SELECT ( COUNT ( * ) AS ?seNum )
+    SELECT ?s ?o ( COUNT ( * ) AS ?tNum )
     WHERE {
-      ?s ?p ?o 
-        MINUS { ?o ?q ?s } 
+        { ?s ?p ?o }
+        UNION
+    	  { ?o ?q ?s }
     }
+    GROUP BY ?s ?o
+    HAVING ( COUNT (*) = 1 )
 
-Number of undirected multiple edges (more than one triples between two nodes)
+Number of multi-edges (edges consisting of more than on triples)
 
-    SELECT ( COUNT ( * ) / 2 AS ?meNum )
+    SELECT ?s ?o ( COUNT ( * ) AS ?tNum )
     WHERE {
-      SELECT DISTINCT ?s ?o
-      WHERE {
-        ?s ?p ?o 
-          FILTER EXISTS { ?o ?q ?s }
-      }
+        { ?s ?p ?o }
+        UNION
+    	  { ?o ?q ?s }
     }
+    GROUP BY ?s ?o
+    HAVING ( COUNT (*) > 1 )
 
-Number of undirected edges
+Number of undirected edges is the number of linked distinct \<subject, object\> pairs
 
     SELECT ( COUNT ( * ) / 2 AS ?eNum )
     WHERE {
@@ -79,7 +84,7 @@ Number of undirected edges
       WHERE {
         { ?s ?p ?o }
         UNION
-    	{ ?o ?q ?s }
+    	  { ?o ?q ?s }
       }
     }
 
