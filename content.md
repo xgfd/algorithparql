@@ -104,7 +104,7 @@ Graph density is defined as the ratio between the number of edges and the number
     }
 
 ###Undirected graph density
-In a undirected graph a linked \<subject, object\> pair counts as one edge. The number of possilbe edges is `|N|*(|N|-1)/2`, and the number of acutual edges equals to the number of distinct \<subject, object\> pairs devided by 2.
+In a undirected graph a linked \<subject, object\> pair counts as one edge. The number of possible edges is `|N|*(|N|-1)/2`, and the number of actual edges equals to the number of distinct \<subject, object\> pairs devided by 2.
 
     SELECT ( ?eNum / ( ?nNum * ( ?nNum - 1.0 ) / 2 ) AS ?density )
     WHERE {
