@@ -50,7 +50,7 @@ Number of triples between two nodes
     WHERE {
         { ?s ?p ?o }
         UNION
-    	  { ?o ?q ?s }
+        { ?o ?q ?s }
     }
     GROUP BY ?s ?o
 
@@ -60,7 +60,7 @@ Number of single edges (edges consisting of one triple)
     WHERE {
         { ?s ?p ?o }
         UNION
-    	  { ?o ?q ?s }
+        { ?o ?q ?s }
     }
     GROUP BY ?s ?o
     HAVING (COUNT (*) = 1)
@@ -71,7 +71,7 @@ Number of multi-edges (edges consisting of more than on triples)
     WHERE {
         { ?s ?p ?o }
         UNION
-    	  { ?o ?q ?s }
+        { ?o ?q ?s }
     }
     GROUP BY ?s ?o
     HAVING (COUNT (*) > 1)
@@ -84,7 +84,7 @@ Number of undirected edges is the number of linked distinct \<subject, object\> 
       WHERE {
         { ?s ?p ?o }
         UNION
-    	  { ?o ?q ?s }
+        { ?o ?q ?s }
       }
     }
 
@@ -114,7 +114,7 @@ In a undirected graph a linked \<subject, object\> pair counts as one edge. The 
         WHERE {
           { ?s ?p ?o }
           UNION
-      	  { ?o ?q ?s }
+          { ?o ?q ?s }
         }
       }
     }
