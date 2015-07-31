@@ -121,3 +121,16 @@ In a undirected graph a linked `(subject, object)` pair counts as one edge. The 
 
 
 **Shortest path between two nodes**
+
+##Basic Analytics
+
+###Pearson corelation
+    SELECT ((SUM (?x * ?y) - ?n * ?xAvg * ?yAvg) / SQRT (SUM (?x * ?x) - ?n * ?xAvg * ?xAvg) / SQRT (SUM (?y * ?y) - ?n * ?xAvg * ?yAvg * ?yAvg)) AS ?r
+    WHERE {
+      SELECT ?x ?y (COUNT (DISTINCT *) AS ?n) (AVG (?x) AS ?xAvg) (AVG (?y) AS ?yAvg)
+      WHERE {
+        ?s ?p* ?x.
+        ?s ?q* ?y
+      }    
+    }
+
