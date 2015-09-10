@@ -122,15 +122,36 @@ In a undirected graph a linked `(subject, object)` pair counts as one edge. The 
 
 **Shortest path between two nodes**
 
+Not possible for an arbitrary length.
+Work around solution for pathes of length up to `n`.
+
+    SELECT ?v1 ?v2 (MIN (?l) AS ?shortestPath)
+    WHERE {
+        {
+            ?v1 :knows ?v2
+            BIND (1 AS ?l)
+        } UNION 
+        {
+            ?v1 :knows{2} ?v2
+            BIND (2 AS ?l)
+        } UNION 
+        ...
+        {
+            ?v1 :knows{n} ?v2
+            BIND (n AS ?l)
+        }  
+        FILTER (?v1 != ?v2)
+    } GROUP BY ?v1 ?v2
+
 ##Basic Analytics
 
-###Pearson corelation
+###Pearson correlation
     SELECT ((SUM (?x * ?y) - ?n * ?xAvg * ?yAvg) / SQRT (SUM (?x * ?x) - ?n * ?xAvg * ?xAvg) / SQRT (SUM (?y * ?y) - ?n * ?xAvg * ?yAvg * ?yAvg)) AS ?r
     WHERE {
       SELECT ?x ?y (COUNT (DISTINCT *) AS ?n) (AVG (?x) AS ?xAvg) (AVG (?y) AS ?yAvg)
       WHERE {
-        ?s ?p* ?x.
-        ?s ?q* ?y
+        ?s :value_1 ?x.
+        ?s :value_2 ?y
       }    
     }
 
