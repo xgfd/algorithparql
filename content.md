@@ -143,6 +143,36 @@ Work around solution for pathes of length up to `n`.
         FILTER (?v1 != ?v2)
     } GROUP BY ?v1 ?v2
 
+**Bottom class in an ontology**
+
+    SELECT ?class AS ?bottomClass
+    WHERE
+    {
+      { #3 identical to query 1 but filtering for the one having the maximum depth
+        SELECT ?class 
+        WHERE
+        {
+          ?class rdfs:subClassOf* ?mid . 
+          ?mid rdfs:subClassOf* owl:Thing .
+        } 
+        GROUP BY ?class
+        HAVING ((COUNT(DISTINCT ?mid) AS ?depth) = ?maxDepth)
+      }
+      { #2 get the maximum depth
+        SELECT (MAX(?depth) AS ?maxDepth)
+        WHERE
+        { #1 get the position of an item in a linked list 
+          SELECT ?class (COUNT(DISTINCT ?mid) AS ?depth)
+          WHERE
+          {
+            ?class rdfs:subClassOf* ?mid . 
+            ?mid rdfs:subClassOf* owl:Thing .
+          } 
+          GROUP BY ?class
+        }
+      }
+    }
+
 ##Basic Analytics
 
 ###Pearson correlation
