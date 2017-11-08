@@ -1,9 +1,9 @@
 # alginsparql
 Algorithms (mainly) written in SPARQL
 
-##Basic inference
+## Basic inference
 
-###Inverse properties
+### Inverse properties
 
     SELECT ?p ?q
     WHERE {
@@ -12,7 +12,7 @@ Algorithms (mainly) written in SPARQL
       { ?a ?q ?c FILTER (?a = ?o && ?c = ?s) }
     }
 
-###Bottom class in an ontology
+### Bottom class in an ontology
 
     SELECT ?class AS ?bottomClass
     WHERE
@@ -42,7 +42,7 @@ Algorithms (mainly) written in SPARQL
       }
     }
 
-##Basic graph statistics
+## Basic graph statistics
 
 Notations:
 
@@ -52,7 +52,7 @@ Notations:
     ?vNum: number of nodes in SPARQL queries, equals to |V|
     ?eNum: number of edges in SPARQL queries, equals to |E|
 
-###Number of nodes
+### Number of nodes
 
 The number of nodes equals to the sum of distinct subjects and objects.
 
@@ -68,14 +68,14 @@ or in a more compact form using property path:
     SELECT (COUNT (DISTINCT ?node) AS ?vNum)
     WHERE { ?node ?p | ^?p ?obj }
 
-###Number of directed edges
+### Number of directed edges
 
 The number of directed edges equals to the number of triples.
 
     SELECT (COUNT (*) AS ?eNum)
     WHERE { ?s ?p ?o }
 
-###Number of undirected edges
+### Number of undirected edges
 
 Number of triples between two nodes
 
@@ -121,7 +121,7 @@ Number of undirected edges is the number of linked distinct `(subject, object)` 
       }
     }
 
-###Directed Graph density
+### Directed Graph density
 
 Graph density is defined as the ratio between the number of edges and the number of all possible edges (i.e. every node connects to all others via outgoing and incoming links). In a directed graph, the number of possilbe edges is `|V|*(|V|-1)`, and the number of acutual edges equals to the number of triples.
 
@@ -136,7 +136,7 @@ Graph density is defined as the ratio between the number of edges and the number
       }
     }
 
-###Undirected graph density
+### Undirected graph density
 In a undirected graph a linked `(subject, object)` pair counts as one edge. The number of possible edges is `|V|*(|V|-1)/2`, and the number of actual edges equals to the number of distinct `(subject, object)` pairs divided by 2.
 
     SELECT (?eNum / (?vNum * (?vNum - 1.0) / 2) AS ?density)
@@ -178,9 +178,10 @@ Work around solution for pathes of length up to `n`.
 
 
 
-##Basic Analytics
+## Basic Analytics
 
-###Pearson correlation
+### Pearson correlation
+
     SELECT ((SUM (?x * ?y) - ?n * ?xAvg * ?yAvg) / SQRT (SUM (?x * ?x) - ?n * ?xAvg * ?xAvg) / SQRT (SUM (?y * ?y) - ?n * ?xAvg * ?yAvg * ?yAvg)) AS ?r
     WHERE {
       SELECT ?x ?y (COUNT (DISTINCT *) AS ?n) (AVG (?x) AS ?xAvg) (AVG (?y) AS ?yAvg)
